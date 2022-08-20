@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder location="classpath*:jdbc.properties"/>
+    <bean id="mydata" class="com.alibaba.druid.pool.DruidDataSource" >
+        <property name="username" value="${jdbc.username}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClassName" value="${jdbc.dve}"/>
+
+<!--        <property name="driver" value="${jdbc.dve}"/>-->
+    </bean>
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="mydata"/>
+        <property name="configLocation" value="classpath:SqlMapConfig.xml"/>
+        <property name="typeAliasesPackage" value="com.ytp.pojo"/>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ytp.mapper"/>
+    </bean>
+
+    <context:component-scan base-package="com.ytp.mapper"/>
+</beans>
